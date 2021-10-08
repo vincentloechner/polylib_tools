@@ -1,0 +1,18 @@
+
+# Transfo
+3 3
+1 0 0 # i' = i
+1 1 0 # j' = i+j
+0 0 1 # constante
+
+# Polyèdre
+4 4
+1 1 0 0
+1 -1 0 10
+1 0 1 0
+1 1 -1 0
+
+# Contexte (pour les paramètres, laisser 0 2 si pas de paramètres.
+0 2
+
+

@@ -1,0 +1,14 @@
+
+# Transfo
+3 10
+  0  0  0  1  0  0  0  0  0  0
+  0  0  0  0  1  0  0  0  0  0
+  0  0  0  0  0  0  0  0  0  1
+
+# Polyèdre
+0 11
+
+# Contexte (pour les paramètres, laisser 0 2 si pas de paramètres.
+0 2
+
+
