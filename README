@@ -6,6 +6,10 @@ Distributed under the WTFPL public license, version 2 (http://www.wtfpl.net/)
 This repo contains various small C codes using PolyLib that I wrote during
 time. It's supposed to provide some PolyLib library usage examples.
 
+You're supposed to have polylib64 installed in a standard repository on
+your computer to use it. See the Makefile if you want to specify its
+location.
+
 For example, imscan2 performs the image of a polyhedron and generate its
 scanning loops using the Fourier-Motzkin implementation in PolyLib, and
 pretty-prints the output.
