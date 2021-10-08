@@ -3,7 +3,11 @@
 #include <stdlib.h>
 #include <polylib/polylib64.h>
 
-#define LONGMAX 2048
+// don't generate strings larger than this or you'll corrupt your memory -
+// fast and dirty :(
+#define MAXLEN 2048
+
+#define EOS(s) ((s)+strlen(s))
 
 static int writeOneSideDomain(Polyhedron *D, int i, char *t, int s, int nbparam)
 {
@@ -18,14 +22,14 @@ static int writeOneSideDomain(Polyhedron *D, int i, char *t, int s, int nbparam)
 			else
 				premier = 0;
 			if( s*D->Constraint[i][1+j] != 1 )
-				sprintf( t, "%s%lld", t, s*D->Constraint[i][1+j] );
-			
+				sprintf( EOS(t), P_VALUE_FMT, s*D->Constraint[i][1+j] );
+
 			if( j>=D->Dimension-nbparam )
 			{	/*param*/
-				sprintf( t, "%s%c", t, 'N'+j-D->Dimension+nbparam );
+				sprintf( EOS(t), "%c", 'N'+j-D->Dimension+nbparam );
 			}
 			else
-				sprintf( t, "%s%c", t, 'i'+j );
+				sprintf( EOS(t), "%c", 'i'+j );
 		}
 	}
 	return( premier );
@@ -34,7 +38,7 @@ static int writeOneSideDomain(Polyhedron *D, int i, char *t, int s, int nbparam)
 /* nbparam : nombre de parametres */
 char *Polyhedron2Ascii( Polyhedron *D, int nbparam )
 {
-	static char wDchn[LONGMAX];
+	static char wDchn[MAXLEN];
 	int i, p;
 
 	strcpy( wDchn, "  { " );
@@ -84,7 +88,7 @@ char *Polyhedron2Ascii( Polyhedron *D, int nbparam )
 				strcat( wDchn, "-" );
 			else if( !p )
 				strcat( wDchn, "+" );
-			sprintf( wDchn, "%s%d", wDchn, abs(D->Constraint[i][1+D->Dimension]) );
+			sprintf( EOS(wDchn), "%d", abs(D->Constraint[i][1+D->Dimension]) );
 		}
 	}
 	strcat( wDchn, " }" );
@@ -106,17 +110,17 @@ static int writeOneSideDomainNM(Polyhedron *D, int i, char *t, int s, char **nam
 			else
 				premier = 0;
 			if( s*D->Constraint[i][1+j] != 1 )
-				sprintf( t, "%s%lld", t, s*D->Constraint[i][1+j] );
-			sprintf( t, "%s%s", t, names[j] );
+				sprintf( EOS(t), P_VALUE_FMT, s*D->Constraint[i][1+j] );
+			sprintf( EOS(t), "%s", names[j] );
 		}
 	}
 	return( premier );
 }
-/* affiche un domaine (parametre) */
-/* names : noms des parametres */
+/* pretty prints a domain (parametric) */
+/* names = parameter names */
 char *Polyhedron2AsciiNamed( Polyhedron *D, char **names )
 {
-	static char wDchn[LONGMAX];
+	static char wDchn[MAXLEN];
 	int i, p;
 
 	strcpy( wDchn, "  { " );
@@ -166,7 +170,7 @@ char *Polyhedron2AsciiNamed( Polyhedron *D, char **names )
 				strcat( wDchn, "-" );
 			else if( !p )
 				strcat( wDchn, "+" );
-			sprintf( wDchn, "%s%d", wDchn, abs(D->Constraint[i][1+D->Dimension]) );
+			sprintf( EOS(wDchn), "%d", abs(D->Constraint[i][1+D->Dimension]) );
 		}
 	}
 	strcat( wDchn, " }" );
